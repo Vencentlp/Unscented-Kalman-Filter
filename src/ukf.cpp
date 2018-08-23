@@ -257,7 +257,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		z_diff = Zsig.col(i) - z_pred;
-		S += weights_(i)*z_diff*z_diff.transpose;
+		S += weights_(i)*z_diff*z_diff.transpose();
 	}
 	S += R_laser;
 
@@ -274,7 +274,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 	VectorXd z = VectorXd(2);
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1);
 	x_ = x_ + K * (z - z_pred);
-	P_ = P_ - K * S*K.transpose;
+	P_ = P_ - K * S*K.transpose();
 
 	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
 	std::cout << "NIS:" << NIS << std::endl;
@@ -332,7 +332,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 		z_diff = Zsig.col(i) - z_pred;
 		while (z_diff(2) < -M_PI) { z_diff(2) += 2 * M_PI; }
 		while (z_diff(2) > M_PI) { z_diff(2) -= 2 * M_PI; }
-		S += weights_(i)*z_diff*z_diff.transpose;
+		S += weights_(i)*z_diff*z_diff.transpose();
 	}
 	S += R_Radar;
 
@@ -355,7 +355,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	VectorXd z = VectorXd(3);
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), meas_package.raw_measurements_(2);
 	x_ = x_ + K * (z - z_pred);
-	P_ = P_ - K * S*K.transpose;
+	P_ = P_ - K * S*K.transpose();
 	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
 	std::cout << "NIS:" << NIS << std::endl;
 }
