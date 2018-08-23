@@ -153,7 +153,7 @@ void UKF::Prediction(double delta_t) {
 	P_aug.bottomRightCorner(2, 2) = Q_;
 
 	//Creat square root matrix
-	MatrixXd L = P_aug.llt.matrixL();
+	MatrixXd L = P_aug.llt().matrixL();
 
 	//Creat sigma points
 	Xsig_aug.col(1) = x_aug;
