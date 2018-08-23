@@ -48,20 +48,18 @@ UKF::UKF() {
   //DO NOT MODIFY measurement noise values above these are provided by the sensor manufacturer.
   
   /**
-  TODO:
-
   Complete the initialization. See ukf.h for other member properties.
   Hint: one or more values initialized above might be wildly off...
   */
   is_initialized_ = false;
   
+  //Initialize process covariance P_
   P_ << 1, 0, 0, 0, 0,
 	  0, 1, 0, 0, 0,
 	  0, 0, 0, 1, 0,
 	  0, 0, 0, 0, 1;
 
-
-
+  // Initialize some parameters
   time_us_ = 0;
   n_x_ = 5;
   n_aug_ = 7;
@@ -77,8 +75,6 @@ UKF::~UKF() {}
  */
 void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   /**
-  TODO:
-
   Complete this function! Make sure you switch between lidar and radar
   measurements.
   */
@@ -100,7 +96,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 			double px = r * cos(phi);
 			double py = r * sin(phi);
 			double v = r_dot;
-			x_ << px, py, v, 0, 0;
+			x_ << px, py, 0, 0, 0;
 		}
 		is_initialized_ = true;	
 		time_us_ = meas_package.timestamp_;
@@ -129,8 +125,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
  */
 void UKF::Prediction(double delta_t) {
   /**
-  TODO:
-
   Complete this function! Estimate the object's location. Modify the state
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
@@ -281,6 +275,9 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1);
 	x_ = x_ + K * (z - z_pred);
 	P_ = P_ - K * S*K.transpose;
+
+	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
+	std::cout << "NIS:" << NIS << std::endl;
 }
 
 /**
@@ -359,4 +356,6 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), meas_package.raw_measurements_(2);
 	x_ = x_ + K * (z - z_pred);
 	P_ = P_ - K * S*K.transpose;
+	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
+	std::cout << "NIS:" << NIS << std::endl;
 }
