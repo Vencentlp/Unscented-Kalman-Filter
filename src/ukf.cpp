@@ -162,14 +162,14 @@ void UKF::Prediction(double delta_t) {
 	
 	//Creat sigma points
 	Xsig_aug.col(0) = x_aug;
-	
+	std::cout << "test point 1" << std::endl;
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		Xsig_aug.col(i + 1) = x_aug + sqrt(lambda_ + n_aug_)*L.col(i);
 		Xsig_aug.col(i + n_aug_ + 1) = x_aug - sqrt(lambda_ + n_aug_)*L.col(i);
 	}
 	
-	std::cout << "test point 1" << std::endl;
+	std::cout << "test point 2" << std::endl;
 	//predict sigma points
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
@@ -191,7 +191,7 @@ void UKF::Prediction(double delta_t) {
 			px_p = px + v / yawd * (sin(yaw + yawd * delta_t) - sin(yaw));
 			py_p = py + v / yawd * (cos(yaw) - cos(yaw + yawd * delta_t));
 		}
-		std::cout << "test point 2" << std::endl;
+		
 		double v_p = v + delta_t * nu_a;
 		double yaw_p = yaw + yawd * delta_t + 0.5*delta_t*delta_t*nu_yawdd;
 		double yawd_p = yawd + delta_t * nu_yawdd;
