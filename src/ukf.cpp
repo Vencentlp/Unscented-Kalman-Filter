@@ -102,9 +102,9 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 		is_initialized_ = true;	
 		time_us_ = meas_package.timestamp_;
 
-		MatrixXd R_laser = MatrixXd(2, 2);
-		R_laser << std_laspx_ * std_laspx_, 0,
-			0, std_laspy_*std_laspy_;		
+		//MatrixXd R_laser = MatrixXd(2, 2);
+		//R_laser << std_laspx_ * std_laspx_, 0,
+			//0, std_laspy_*std_laspy_;		
 	}
 	double delta_t = (meas_package.timestamp_ - time_us_) / 1000000.0;
 	time_us_ = meas_package.timestamp_;
@@ -144,7 +144,7 @@ void UKF::Prediction(double delta_t) {
 	x_aug(6) = 0;
 
 	//Creat state noise covariance matrix
-	MatrixXd Q_ = MatrixXd(2, 3);
+	MatrixXd Q_ = MatrixXd(2, 2);
 	Q_ << std_a_ * std_a_, 0,
 		0, std_yawdd_*std_yawdd_;
 
