@@ -51,7 +51,7 @@ UKF::UKF() {
   Complete the initialization. See ukf.h for other member properties.
   Hint: one or more values initialized above might be wildly off...
   */
-  std::cout << "test pointer 0" << std::endl;
+  //std::cout << "test pointer 0" << std::endl;
   is_initialized_ = false;
   
   //Initialize process covariance P_
@@ -66,7 +66,7 @@ UKF::UKF() {
   n_x_ = 5;
   n_aug_ = 7;
   lambda_ = 3 - n_aug_;
-  std::cout << "constructor" << std::endl;
+  //std::cout << "constructor" << std::endl;
   
 }
 
@@ -155,19 +155,20 @@ void UKF::Prediction(double delta_t) {
 	P_aug.fill(0.0);
 	P_aug.topLeftCorner(5, 5) = P_;
 	P_aug.bottomRightCorner(2, 2) = Q_;
-	std::cout << "test point 1" << std::endl;
+	
 
 	//Creat square root matrix
 	MatrixXd L = P_aug.llt().matrixL();
-
+	std::cout << "test point 1" << std::endl;
 	//Creat sigma points
-	Xsig_aug.col(1) = x_aug;
+	Xsig_aug.col(0) = x_aug;
+	std::cout << "test point 2" << std::endl;
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		Xsig_aug.col(i + 1) = x_aug + sqrt(lambda_ + n_aug_)*L.col(i);
-		Xsig_aug.col(i + n_aug_ + 1) = x_aug + sqrt(lambda_ + n_aug_)*L.col(i);
+		Xsig_aug.col(i + n_aug_ + 1) = x_aug - sqrt(lambda_ + n_aug_)*L.col(i);
 	}
-	std::cout << "test point 2" << std::endl;
+	
 
 	//predict sigma points
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
