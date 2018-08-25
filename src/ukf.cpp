@@ -159,16 +159,16 @@ void UKF::Prediction(double delta_t) {
 
 	//Creat square root matrix
 	MatrixXd L = P_aug.llt().matrixL();
-	std::cout << "test point 1" << std::endl;
+	
 	//Creat sigma points
 	Xsig_aug.col(0) = x_aug;
-	std::cout << "test point 2" << std::endl;
+	std::cout << "test point 1" << std::endl;
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		Xsig_aug.col(i + 1) = x_aug + sqrt(lambda_ + n_aug_)*L.col(i);
 		Xsig_aug.col(i + n_aug_ + 1) = x_aug - sqrt(lambda_ + n_aug_)*L.col(i);
 	}
-	
+	std::cout << "test point 2" << std::endl;
 
 	//predict sigma points
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
