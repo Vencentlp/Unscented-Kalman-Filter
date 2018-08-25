@@ -171,6 +171,7 @@ void UKF::Prediction(double delta_t) {
 	
 	
 	//predict sigma points
+	Xsig_pred_ = MatrixXd(5, 2 * n_aug_ + 1);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		double px = Xsig_aug(0, i);
