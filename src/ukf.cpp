@@ -90,7 +90,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 		{
 			double r = meas_package.raw_measurements_(0);
 			double phi = meas_package.raw_measurements_(1);
-			double r_dot = meas_package.raw_measurements_(2);
+			//double r_dot = meas_package.raw_measurements_(2);
 
 
 			double px = r * cos(phi);
