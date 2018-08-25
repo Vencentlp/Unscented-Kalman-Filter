@@ -100,6 +100,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 			x_ << px, py, 0, 0, 0;
 		}
 		is_initialized_ = true;	
+		std::cout << is_initialized_ << std::endl;
 		time_us_ = meas_package.timestamp_;
 
 		//MatrixXd R_laser = MatrixXd(2, 2);
@@ -152,6 +153,7 @@ void UKF::Prediction(double delta_t) {
 	P_aug.fill(0.0);
 	P_aug.topLeftCorner(5, 5) = P_;
 	P_aug.bottomRightCorner(2, 2) = Q_;
+	std::cout << "test point 1" << std::endl;
 
 	//Creat square root matrix
 	MatrixXd L = P_aug.llt().matrixL();
@@ -163,6 +165,7 @@ void UKF::Prediction(double delta_t) {
 		Xsig_aug.col(i + 1) = x_aug + sqrt(lambda_ + n_aug_)*L.col(i);
 		Xsig_aug.col(i + n_aug_ + 1) = x_aug + sqrt(lambda_ + n_aug_)*L.col(i);
 	}
+	std::cout << "test point 2" << std::endl;
 
 	//predict sigma points
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
@@ -191,6 +194,7 @@ void UKF::Prediction(double delta_t) {
 
 		Xsig_pred_.col(i) << px_p, py_p, v_p, yaw_p, yawd_p;
 	}
+	std::cout << "test point3" << std::endl;
 
 	// predict mean and covariance for sigma points
 
