@@ -51,6 +51,7 @@ UKF::UKF() {
   Complete the initialization. See ukf.h for other member properties.
   Hint: one or more values initialized above might be wildly off...
   */
+  std::cout << "test pointer 0" << std::endl;
   is_initialized_ = false;
   
   //Initialize process covariance P_
@@ -65,6 +66,7 @@ UKF::UKF() {
   n_x_ = 5;
   n_aug_ = 7;
   lambda_ = 3 - n_aug_;
+  std::cout << "constructor" << std::endl;
   
 }
 
