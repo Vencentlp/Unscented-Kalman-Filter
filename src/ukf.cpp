@@ -95,7 +95,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 
 			double px = r * cos(phi);
 			double py = r * sin(phi);
-			double v = r_dot;
+			//double v = r_dot;
 			x_ << px, py, 0, 0, 0;
 		}
 		is_initialized_ = true;	

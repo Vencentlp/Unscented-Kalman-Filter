@@ -22,7 +22,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 		cout << "Error - Calculate RMSE () - The groud truth and estimation vector must have same size";
 		return RMSE;
 	}
-	for (int i = 0; i < estimations.size(); i++)
+	for (unsigned int i = 0; i < estimations.size(); i++)
 	{
 		VectorXd Diff = estimations[i] - ground_truth[i];
 		VectorXd residual = Diff.array() * Diff.array();
