@@ -245,7 +245,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 		Zsig(1, i) = py;
 	}
 
-	VectorXd z_pred = VectorXd(3);
+	VectorXd z_pred = VectorXd(2);
 	z_pred.fill(0);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
@@ -254,7 +254,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 
 	MatrixXd S = MatrixXd(2, 2);
 	S.fill(0);
-	VectorXd z_diff = VectorXd(3);
+	VectorXd z_diff = VectorXd(2);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		z_diff = Zsig.col(i) - z_pred;
