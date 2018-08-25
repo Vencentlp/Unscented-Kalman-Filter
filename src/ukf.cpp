@@ -214,7 +214,7 @@ void UKF::Prediction(double delta_t) {
 		P_diff = weights_(i)*x_diff*x_diff.transpose();
 		P_ = P_ + P_diff;
 	}
-	
+	std::cout << "prediction" << std::endl;
 }
 
 /**
