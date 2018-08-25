@@ -67,6 +67,7 @@ UKF::UKF() {
   n_aug_ = 7;
   lambda_ = 3 - n_aug_;
   //std::cout << "constructor" << std::endl;
+  weights_ = VectorXd(2 * n_aug_ + 1);
   
 }
 
