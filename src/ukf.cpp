@@ -193,11 +193,11 @@ void UKF::Prediction(double delta_t) {
 			px_p = px + v / yawd * (sin(yaw + yawd * delta_t) - sin(yaw));
 			py_p = py + v / yawd * (cos(yaw) - cos(yaw + yawd * delta_t));
 		}
-		std::cout << "test point 1" << std::endl;
+		
 		double v_p = v + delta_t * nu_a;
 		double yaw_p = yaw + yawd * delta_t + 0.5*delta_t*delta_t*nu_yawdd;
 		double yawd_p = yawd + delta_t * nu_yawdd;
-		std::cout << "test point 2" << std::endl;
+		
 		//write predicted sigma point into right column
 		Xsig_pred_(0, i) = px_p;
 		Xsig_pred_(1, i) = py_p;
@@ -206,13 +206,13 @@ void UKF::Prediction(double delta_t) {
 		Xsig_pred_(4, i) = yawd_p;
 		//Xsig_pred_.col(i) << px_p, py_p, v_p, yaw_p, yawd_p;
 	}
-	std::cout << "test point3" << std::endl;
-
+	
+	std::cout << "test point 1" << std::endl;
 	// predict mean and covariance for sigma points
 
 	weights_.fill(0.5 / (lambda_ + n_aug_));
 	weights_(0) = lambda_ / (lambda_ + n_aug_);
-
+	std::cout << "test point 2" << std::endl;
 	x_.fill(0);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
@@ -221,7 +221,7 @@ void UKF::Prediction(double delta_t) {
 	
 	VectorXd x_diff = VectorXd(n_x_);
 	MatrixXd P_diff = MatrixXd(n_x_, n_x_);
-
+	std::cout << "test point3" << std::endl;
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		x_diff = Xsig_pred_.col(i) - x_;
