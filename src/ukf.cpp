@@ -51,7 +51,7 @@ UKF::UKF() {
   Complete the initialization. See ukf.h for other member properties.
   Hint: one or more values initialized above might be wildly off...
   */
-  //std::cout << "test pointer 0" << std::endl;
+ 
   is_initialized_ = false;
   
   //Initialize process covariance P_
@@ -208,12 +208,12 @@ void UKF::Prediction(double delta_t) {
 		//Xsig_pred_.col(i) << px_p, py_p, v_p, yaw_p, yawd_p;
 	}
 	
-	//std::cout << "test point 1" << std::endl;
+	
 	// predict mean and covariance for sigma points
 
 	weights_.fill(0.5 / (lambda_ + n_aug_));
 	weights_(0) = lambda_ / (lambda_ + n_aug_);
-	//std::cout << "test point 2" << std::endl;
+	
 	x_.fill(0);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
@@ -222,7 +222,7 @@ void UKF::Prediction(double delta_t) {
 	
 	VectorXd x_diff = VectorXd(n_x_);
 	MatrixXd P_diff = MatrixXd(n_x_, n_x_);
-	//std::cout << "test point3" << std::endl;
+	
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		x_diff = Xsig_pred_.col(i) - x_;
@@ -315,10 +315,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	R_Radar << std_radr_ * std_radr_, 0, 0,
 		0, std_radphi_*std_radphi_, 0,
 		0, 0, std_radrd_*std_radrd_;
-	std::cout << "test point1" << std::endl;
+	
 	MatrixXd Zsig = MatrixXd(3, 2 * n_aug_ + 1);
 	Zsig.fill(0);
-	std::cout << "test point2" << std::endl;
+	
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		double px = Xsig_pred_(0, i);
@@ -334,15 +334,22 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 			Zsig(1, i) = atan2(py, px);
 			Zsig(2, i) = (px*v1 + py * v2) / sqrt(px*px + py * py);
 		}
+		else
+		{
+			std::cout << "0-atan2" << Zsig(1, i) << std::endl;
+			std::cout << "0-r_dot" << Zsig(2, i) << std::endl;
+			
+		}
+		
 	}
-	std::cout << "test point3" << std::endl;
+	
 	VectorXd z_pred = VectorXd(3);
 	z_pred.fill(0);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		z_pred += weights_(i) * Zsig.col(i);
 	}
-	std::cout << "test point4" << std::endl;
+	
 	MatrixXd S = MatrixXd(3, 3);
 	S.fill(0);
 	VectorXd z_diff = VectorXd(3);
@@ -353,7 +360,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 		while (z_diff(2) > M_PI) { z_diff(2) -= 2 * M_PI; }
 		S += weights_(i)*z_diff*z_diff.transpose();
 	}
-	std::cout << "test point5" << std::endl;
+	
 	S += R_Radar;
 
 
@@ -371,7 +378,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
 		T += weights_(i)*x_diff*z_diff.transpose();
 	}
-	std::cout << "test point6" << std::endl;
+	
 	MatrixXd K = T * S.inverse();
 	VectorXd z = VectorXd(3);
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), meas_package.raw_measurements_(2);
