@@ -66,7 +66,6 @@ UKF::UKF() {
   n_x_ = 5;
   n_aug_ = 7;
   lambda_ = 3 - n_aug_;
-  //std::cout << "constructor" << std::endl;
   weights_ = VectorXd(2 * n_aug_ + 1);
   
 }
@@ -103,7 +102,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 			x_ << px, py, 0, 0, 0;
 		}
 		is_initialized_ = true;	
-		std::cout << is_initialized_ << std::endl;
 		time_us_ = meas_package.timestamp_;
 
 		//MatrixXd R_laser = MatrixXd(2, 2);
@@ -112,7 +110,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 	}
 	double delta_t = (meas_package.timestamp_ - time_us_) / 1000000.0;
 	time_us_ = meas_package.timestamp_;
-	std::cout << "time_us" << time_us_ << std::endl;
 	Prediction(delta_t);
 	if (meas_package.sensor_type_ == meas_package.LASER)
 	{
@@ -231,7 +228,6 @@ void UKF::Prediction(double delta_t) {
 		P_diff = weights_(i)*x_diff*x_diff.transpose();
 		P_ = P_ + P_diff;
 	}
-	std::cout << "prediction" << std::endl;
 }
 
 /**
@@ -385,6 +381,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	x_ = x_ + K * (z - z_pred);
 	P_ = P_ - K * S*K.transpose();
 	std::cout << "s " << S << std::endl;
+	std::cout << "P " << P_ << std::endl;
 	std::cout << "z-z_pred" << z - z_pred << endl;
 	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
 	std::cout << "Radar NIS:" << NIS << std::endl;
