@@ -207,12 +207,12 @@ void UKF::Prediction(double delta_t) {
 		//Xsig_pred_.col(i) << px_p, py_p, v_p, yaw_p, yawd_p;
 	}
 	
-	std::cout << "test point 1" << std::endl;
+	//std::cout << "test point 1" << std::endl;
 	// predict mean and covariance for sigma points
 
 	weights_.fill(0.5 / (lambda_ + n_aug_));
 	weights_(0) = lambda_ / (lambda_ + n_aug_);
-	std::cout << "test point 2" << std::endl;
+	//std::cout << "test point 2" << std::endl;
 	x_.fill(0);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
@@ -221,7 +221,7 @@ void UKF::Prediction(double delta_t) {
 	
 	VectorXd x_diff = VectorXd(n_x_);
 	MatrixXd P_diff = MatrixXd(n_x_, n_x_);
-	std::cout << "test point3" << std::endl;
+	//std::cout << "test point3" << std::endl;
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		x_diff = Xsig_pred_.col(i) - x_;
@@ -294,7 +294,7 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 	P_ = P_ - K * S*K.transpose();
 
 	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
-	std::cout << "NIS:" << NIS << std::endl;
+	std::cout << "Laser NIS:" << NIS << std::endl;
 }
 
 /**
@@ -374,5 +374,5 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	x_ = x_ + K * (z - z_pred);
 	P_ = P_ - K * S*K.transpose();
 	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
-	std::cout << "NIS:" << NIS << std::endl;
+	std::cout << "Radar NIS:" << NIS << std::endl;
 }
