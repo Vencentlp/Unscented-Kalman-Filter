@@ -16,7 +16,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
     * Calculate the RMSE here.
   */
 	VectorXd RMSE(5);
-	RMSE << 0, 0, 0, 0;
+	RMSE << 0, 0, 0, 0, 0;
 	if (estimations.size() != ground_truth.size())
 	{
 		cout << "Error - Calculate RMSE () - The groud truth and estimation vector must have same size";
