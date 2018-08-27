@@ -328,17 +328,23 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 		double v2 = v * sin(yaw);
 
 		Zsig(0, i) = sqrt(px*px + py * py);
-		if (Zsig(0, i) > 0.0001)
+		if (px > 0.0001)
 		{
 			Zsig(1, i) = atan2(py, px);
-			Zsig(2, i) = (px*v1 + py * v2) / sqrt(px*px + py * py);
 		}
 		else
 		{
 			std::cout << "0-atan2" << Zsig(1, i) << std::endl;
-			std::cout << "0-r_dot" << Zsig(2, i) << std::endl;
-			
 		}
+		if (Zsig(0, i) > 0.0001)
+		{			
+			Zsig(2, i) = (px*v1 + py * v2) / sqrt(px*px + py * py);
+		}
+		else
+		{
+			std::cout << "0-r_dot" << Zsig(2, i) << std::endl;			
+		}
+		
 		
 	}
 	
