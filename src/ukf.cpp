@@ -324,7 +324,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 		double py = Xsig_pred_(1, i);
 		double v = Xsig_pred_(2, i);
 		double yaw = Xsig_pred_(3, i);
-		double v1 = v * cosh(yaw);
+		double v1 = v * cos(yaw);
 		double v2 = v * sin(yaw);
 
 		Zsig(0, i) = sqrt(px*px + py * py);
