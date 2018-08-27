@@ -158,7 +158,7 @@ void UKF::Prediction(double delta_t) {
 	std::cout << "Paug" << P_aug << std::endl;
 	//Creat square root matrix
 	MatrixXd L = P_aug.llt().matrixL();
-	std::cout << "L" << L << std:endl;
+	std::cout << "L" << L << std::endl;
 	
 	//Creat sigma points
 	Xsig_aug.col(0) = x_aug;
