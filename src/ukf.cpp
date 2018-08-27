@@ -221,7 +221,8 @@ void UKF::Prediction(double delta_t) {
 	
 	VectorXd x_diff = VectorXd(n_x_);
 	MatrixXd P_diff = MatrixXd(n_x_, n_x_);
-	
+
+	P_.fill(0);
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		x_diff = Xsig_pred_.col(i) - x_;
