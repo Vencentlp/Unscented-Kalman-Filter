@@ -155,9 +155,10 @@ void UKF::Prediction(double delta_t) {
 	P_aug.topLeftCorner(5, 5) = P_;
 	P_aug.bottomRightCorner(2, 2) = Q_;
 	
-
+	std::cout << "Paug" << P_aug << std::endl;
 	//Creat square root matrix
 	MatrixXd L = P_aug.llt().matrixL();
+	std::cout << "L" << L << std:endl;
 	
 	//Creat sigma points
 	Xsig_aug.col(0) = x_aug;
