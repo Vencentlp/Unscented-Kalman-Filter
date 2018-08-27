@@ -183,7 +183,7 @@ void UKF::Prediction(double delta_t) {
 		double nu_a = Xsig_aug(5, i);
 		double nu_yawdd = Xsig_aug(6, i);
 		double px_p, py_p;
-		if (yawd < 0.0001)
+		if (abs(yawd) < 0.0001)
 		{
 			px_p = px + v * delta_t*cos(yaw);
 			py_p = py + v * delta_t*sin(yaw);
@@ -328,7 +328,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 		double v2 = v * sin(yaw);
 
 		Zsig(0, i) = sqrt(px*px + py * py);
-		if (px > 0.0001)
+		if (abs(px) > 0.0001)
 		{
 			Zsig(1, i) = atan2(py, px);
 		}
