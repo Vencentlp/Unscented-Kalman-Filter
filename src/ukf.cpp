@@ -358,7 +358,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	for (int i = 0; i < 2 * n_aug_ + 1; i++)
 	{
 		z_pred += weights_(i) * Zsig.col(i);
+		
 	}
+	while (z_pred(2) < -M_PI) { z_pred(2) += 2 * M_PI; }
+	while (z_pred(2) > M_PI) { z_pred(2) -= 2 * M_PI; }
 	
 	MatrixXd S = MatrixXd(3, 3);
 	S.fill(0);
@@ -392,7 +395,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	MatrixXd K = T * S.inverse();
 	VectorXd z = VectorXd(3);
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), meas_package.raw_measurements_(2);
-	x_ = x_ + K * (z - z_pred);
+	z_diff = z - z_pred;
+	while (z_diff(1)> M_PI) z_diff(1) -= 2.*M_PI;
+	while (z_diff(1)<-M_PI) z_diff(1) += 2.*M_PI;
+	x_ = x_ + K * z_diff;
 	P_ = P_ - K * S*K.transpose();
 	std::cout << "RadarT " << T << std::endl;
 	std::cout << "RadarK " << K << std::endl;
