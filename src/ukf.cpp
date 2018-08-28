@@ -231,6 +231,8 @@ void UKF::Prediction(double delta_t) {
 		P_diff = weights_(i)*x_diff*x_diff.transpose();
 		P_ = P_ + P_diff;
 	}
+	std::cout << "Predictx " << x_ << std::endl;
+	std::cout << "PredictP " << P_ << std::endl;
 }
 
 /**
@@ -292,7 +294,10 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1);
 	x_ = x_ + K * (z - z_pred);
 	P_ = P_ - K * S*K.transpose();
-
+	std::cout << "LaserT " << T << std::endl;
+	std::cout << "LaserK " << K << std::endl;
+	std::cout << "LaserP " << P_ << std::endl;
+	std::cout << "Laserx" << x_ << endl;
 	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
 	std::cout << "Laser NIS:" << NIS << std::endl;
 }
@@ -389,9 +394,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 	z << meas_package.raw_measurements_(0), meas_package.raw_measurements_(1), meas_package.raw_measurements_(2);
 	x_ = x_ + K * (z - z_pred);
 	P_ = P_ - K * S*K.transpose();
-	std::cout << "s " << S << std::endl;
-	std::cout << "P " << P_ << std::endl;
-	std::cout << "z-z_pred" << z - z_pred << endl;
+	std::cout << "RadarT " << T << std::endl;
+	std::cout << "RadarK " << K << std::endl;
+	std::cout << "RadarP " << P_ << std::endl;
+	std::cout << "Radarx" << x_ << endl;
 	double NIS = (z - z_pred).transpose()*(S.inverse())*(z - z_pred);
 	std::cout << "Radar NIS:" << NIS << std::endl;
 }
