@@ -57,9 +57,9 @@ UKF::UKF() {
   //Initialize process covariance P_
   P_ << 1, 0, 0, 0, 0,
 	  0, 1, 0, 0, 0,
-	  0, 0, 1000, 0, 0,
-	  0, 0, 0, 1000, 0,
-	  0, 0, 0, 0, 1000;
+	  0, 0, 1, 0, 0,
+	  0, 0, 0, 1, 0,
+	  0, 0, 0, 0, 1;
 
   // Initialize some parameters
   time_us_ = 0;
